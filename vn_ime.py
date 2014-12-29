@@ -268,14 +268,22 @@ class StartimeCommand(sublime_plugin.TextCommand):
     def _convert_word_char(self,_key,_word,_list_char_sour,_list_char_dest):
         global _LAST_KEY
         _list_word = list(_word)
-        _list_consonant = ['b','c','d','đ','D','Đ','f','g','h','j','k','l','m',
-                           'n','p','q','r','s','t','v','w','x','z']
+        _list_consonant = ['b','c','d','đ','f','g','h','j','k','l','m',
+                           'n','p','q','r','s','t','v','w','x','z',
+                           'B','C','D','Đ','F','G','H','J','K','L','M',
+                           'N','P','Q','R','S','T','V','W','X','Z']
         _list_exception_character_of_vietnamese = ['ơ','ớ','ờ',
                                                    'ở','ỡ','ợ',
                                                    'e','é','è',
                                                    'ẻ','ẽ','ẹ',
                                                    'ê','ế','ề',
-                                                   'ể','ễ','ệ']
+                                                   'ể','ễ','ệ',
+                                                   'Ơ','Ớ','Ờ',
+                                                   'Ở','Ỡ','Ợ',
+                                                   'E','É','È',
+                                                   'Ẻ','Ẽ','Ẹ',
+                                                   'Ê','Ế','Ề',
+                                                   'Ể','Ễ','Ệ']
         _index_first_vowel = -1
         _index_exception = -1
         _count_vowel = 0
