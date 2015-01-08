@@ -45,8 +45,17 @@ class StartimeCommand(sublime_plugin.TextCommand):
       return True
     return False
 
-  def _is_vietnamese(self,_index_current_vowel,_index_first_vowel,_count_vowel):
-    if int(_index_current_vowel) == int(_index_first_vowel) + int(_count_vowel) - 1:
+  def _is_vietnamese(self,_index_current_vowel,
+                     _index_first_vowel,_count_vowel):
+    if int(_index_current_vowel) == \
+       int(_index_first_vowel) + int(_count_vowel) - 1:
+      return True
+    return False
+
+  def _is_vietnamese_old_word(self,_list_word,_count_vowel):
+    if _list_word[1] in ['i','I'] and _list_word[0] in ['g','G']:
+      return True
+    if _list_word[1] in ['u','U'] and _list_word[0] in ['q','Q']:
       return True
     return False
 
@@ -55,7 +64,8 @@ class StartimeCommand(sublime_plugin.TextCommand):
                                          'q','r','s','v','w','x','z',
                                          'B','D','Đ','F','J','K','L',
                                          'Q','R','S','V','W','X','Z']
-    if _count_vowel != 0 and _current_consonant in _list_consonant_not_in_vietnamese:
+    if _count_vowel != 0 and \
+       _current_consonant in _list_consonant_not_in_vietnamese:
       return True
     return False
 
@@ -286,7 +296,9 @@ class StartimeCommand(sublime_plugin.TextCommand):
                        'n','p','q','r','s','t','v','w','x','z',
                        'B','C','D','Đ','F','G','H','J','K','L','M',
                        'N','P','Q','R','S','T','V','W','X','Z']
-    _list_exception_character_of_vietnamese = ['ơ','ớ','ờ',
+    _list_exception_character_of_vietnamese = [#'o','ó','ò',
+                                               #'ỏ','õ','ọ',
+                                               'ơ','ớ','ờ',
                                                'ở','ỡ','ợ',
                                                'ê','ế','ề',
                                                'ể','ễ','ệ',
@@ -310,7 +322,7 @@ class StartimeCommand(sublime_plugin.TextCommand):
       _pre_key = _list_word[-1]
     if len(_list_word) > 7:
       return word
-
+    
     for i in range(len(_list_word)):
       for j in range(len(_list_consonant)):
         if _list_word[i] == _list_consonant[j]:
@@ -320,10 +332,6 @@ class StartimeCommand(sublime_plugin.TextCommand):
           break
         elif j == len(_list_consonant)-1:
           _index_current_vowel = i
-          if _list_word[i] == 'i' and _list_word[i-1] == 'g':
-            break
-          if _list_word[i] == 'u' and _list_word[i-1] == 'q':
-            break
           if _list_word[i] in _list_exception_character_of_vietnamese:
             _index_exception = i
           if _index_first_vowel == -1:
@@ -331,32 +339,37 @@ class StartimeCommand(sublime_plugin.TextCommand):
           _count_vowel += 1
           if not self._is_vietnamese(_index_current_vowel,_index_first_vowel,_count_vowel):
             return word
-    
+
+    if _count_vowel > 1:
+      if self._is_vietnamese_old_word(_list_word,_count_vowel):
+        _index_first_vowel += 1
+        _count_vowel -= 1
+
     if _index_exception != -1:
       _index_changed_character = _index_exception
       if _key == '7' and _index_first_vowel + _count_vowel < len(_list_word):
         for i in range(len(_list_char_sour)):
-          if _list_word[_index_changed_character-1] == _list_char_sour[i]:
-            _list_word[_index_changed_character-1] = _list_char_dest[i]
+          if _list_word[_index_changed_character - 1] == _list_char_sour[i]:
+            _list_word[_index_changed_character - 1] = _list_char_dest[i]
             break
     elif _count_vowel == 3:
-      _index_changed_character = _index_first_vowel+1
+      _index_changed_character = _index_first_vowel + 1
       if _key == '7':
         for i in range(len(_list_char_sour)):
-          if _list_word[_index_changed_character-1] == _list_char_sour[i]:
-            _list_word[_index_changed_character-1] = _list_char_dest[i]
+          if _list_word[_index_changed_character - 1] == _list_char_sour[i]:
+            _list_word[_index_changed_character - 1] = _list_char_dest[i]
             break
     elif _count_vowel == 2:
       if _index_first_vowel + _count_vowel < len(_list_word):
-        _index_changed_character = _index_first_vowel+1
-        if _key == '7':
+        _index_changed_character = _index_first_vowel + 1
+        if _key == '7' and _list_word[_index_first_vowel] != _list_word[_index_first_vowel + 1]:
           for i in range(len(_list_char_sour)):
-            if _list_word[_index_changed_character-1] == _list_char_sour[i]:
-              _list_word[_index_changed_character-1] = _list_char_dest[i]
+            if _list_word[_index_changed_character - 1] == _list_char_sour[i]:
+              _list_word[_index_changed_character - 1] = _list_char_dest[i]
               break
       else:
-        if _key == '7' and _list_word[_index_first_vowel+1] != 'i':
-          _index_changed_character = _index_first_vowel+1
+        if _key == '7' and _list_word[_index_first_vowel + 1] == 'o':
+          _index_changed_character = _index_first_vowel + 1
         else:
           _index_changed_character = _index_first_vowel
     elif _count_vowel == 1:
