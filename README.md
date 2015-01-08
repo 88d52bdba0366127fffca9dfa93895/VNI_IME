@@ -4,7 +4,9 @@ Gõ tiếng Việt trên Sublime Text bằng kiểu gõ VNI, quy tắc đặt d�
 
 ## Cài đặt
 
-`git clone https://github.com/88d52bdba0366127fffca9dfa93895/VN_IME ~/.config/sublime-text-3/Packages/VN_IME`
+```
+git clone https://github.com/88d52bdba0366127fffca9dfa93895/VN_IME ~/.config/sublime-text-3/Packages/VN_IME
+```
 
 ## Hướng dẫn sử dụng
 
