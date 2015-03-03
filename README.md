@@ -2,6 +2,8 @@
 
 Gõ tiếng Việt trên Sublime Text bằng kiểu gõ VNI, quy tắc đặt dấu theo kiểu cũ.
 
+**Lưu ý: Repo này hiện không còn được duy trì. Repo này sẽ được gộp chung với Repo của yehnkay và tiếp tục duy trì ở [VN_IME](https://github.com/yehnkay/VN_IME)**
+
 ## Cài đặt
 
 ```
